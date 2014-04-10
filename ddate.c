@@ -4,8 +4,8 @@
    written  the 65th day of The Aftermath in the Year of Our Lady of 
    Discord 3157 by Druel the Chaotic aka Jeremy Johnson aka
    mpython@gnu.ai.mit.edu  
-      28 Sever St Apt #3
-      Worcester MA 01609
+   28 Sever St Apt #3
+   Worcester MA 01609
 
    and I'm not responsible if this program messes anything up (except your 
    mind, I'm responsible for that)
@@ -28,7 +28,7 @@
    Version history:
    Bureflux 3161:      First release of enhanced ddate with format strings
    59 Bcy, 3161:       PRAISE_BOB and KILL_BOB options split, other minor
-                       changes.
+   changes.
    53 Bcy, 3179:       Fixed gregorian date conversions less than YOLD 1167
 
    1999-02-22 Arkadiusz Miskiewicz <misiek@pld.ORG.PL>
@@ -45,7 +45,7 @@
    - call out adherents of the wrong fruit
 
    FIVE TONS OF FLAX
-*/
+   */
 
 /* configuration options  VVVVV   READ THIS!!! */
 
@@ -90,7 +90,7 @@
 
 /* &a[0] degrades to a pointer: a different type from an array */
 # define __must_be_array(a) \
-	BUILD_BUG_ON_ZERO(__builtin_types_compatible_p(__typeof__(a), __typeof__(&a[0])))
+    BUILD_BUG_ON_ZERO(__builtin_types_compatible_p(__typeof__(a), __typeof__(&a[0])))
 
 #define BUILD_BUG_ON_ZERO(e) (sizeof(struct { int:-!!(e); }))
 
@@ -168,16 +168,16 @@ default_fmt
 #define DY(y) (y+1166)
 
 static inline char *ending(int i) {
-	return i/10==1?"th":(i%10==1?"st":(i%10==2?"nd":(i%10==3?"rd":"th")));
+    return i/10==1?"th":(i%10==1?"st":(i%10==2?"nd":(i%10==3?"rd":"th")));
 }
 
 static inline int leapp(int i) {
-	return (!(DY(i)%4))&&((DY(i)%100)||(!(DY(i)%400)));
+    return (!(DY(i)%4))&&((DY(i)%100)||(!(DY(i)%400)));
 }
 
 /* select a random string */
 static inline char *sel(char **strings, int num) {
-	return(strings[random()%num]);
+    return(strings[random()%num]);
 }
 
 void print(struct disc_time,char **); /* old */
@@ -200,7 +200,7 @@ main (int argc, char *argv[]) {
 
     progname = argv[0];
     if ((p = strrchr(progname, '/')) != NULL)
-	progname = p+1;
+        progname = p+1;
 
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
@@ -209,57 +209,57 @@ main (int argc, char *argv[]) {
     srandom(time(NULL));
     /* do args here */
     for(pi=1; pi<argc; pi++) {
-	switch(argv[pi][0]) {
-	case '+': fnord=argv[pi]+1; break;
-	case '-': 
-	    switch(argv[pi][1]) {
-	    case 'V':
-		printf(("%s (%s)\n"), progname, PACKAGE_STRING);
-	    default: goto usage;
-	    }
-	default: goto thud;
-	}
+        switch(argv[pi][0]) {
+            case '+': fnord=argv[pi]+1; break;
+            case '-': 
+                switch(argv[pi][1]) {
+                    case 'V':
+                        printf(("%s (%s)\n"), progname, PACKAGE_STRING);
+                    default: goto usage;
+                }
+            default: goto thud;
+        }
     }
 
-  thud:
+thud:
     if (argc-pi==3){ 
-	int moe=atoi(argv[pi]), larry=atoi(argv[pi+1]), curly=atoi(argv[pi+2]);
-	hastur=makeday(
+        int moe=atoi(argv[pi]), larry=atoi(argv[pi+1]), curly=atoi(argv[pi+2]);
+        hastur=makeday(
 #ifdef US_FORMAT
-	    moe,larry,
+                moe,larry,
 #else
-	    larry,moe,
+                larry,moe,
 #endif
-	    curly);
-	if (hastur.season == -1) {
-		printf("Invalid date -- out of range\n");
-		return -1;
-	}
-	fnord=fnord?fnord:default_fmt;
+                curly);
+        if (hastur.season == -1) {
+            printf("Invalid date -- out of range\n");
+            return -1;
+        }
+        fnord=fnord?fnord:default_fmt;
     } else {
         if (argc-pi==1) {
             t = strtol(argv[pi],NULL,10);
         } else if (argc!=pi) { 
-          usage:
+usage:
 #ifdef US_FORMAT
-        	fprintf(stderr,("usage: %s [+format] [month day year] you bloody yanks\n"), argv[0]);
+            fprintf(stderr,("usage: %s [+format] [month day year] you bloody yanks\n"), argv[0]);
 #else
-        	fprintf(stderr,("usage: %s [+format] [day month year]\n"), argv[0]);
+            fprintf(stderr,("usage: %s [+format] [day month year]\n"), argv[0]);
 #endif
-        	fprintf(stderr,("alsousage: %s [+format] [timestamp]\n"), argv[0]);
-        	exit(1);
+            fprintf(stderr,("alsousage: %s [+format] [timestamp]\n"), argv[0]);
+            exit(1);
         } else {
-        	t= time(NULL);
+            t= time(NULL);
         }
-    	eris=gmtime(&t);
-    	bob=eris->tm_yday; /* days since Jan 1. */
-    	raw=eris->tm_year; /* years since 1980 */
-    	hastur=convert(bob,raw);
-    	fnord=fnord?fnord:default_immediate_fmt;
+        eris=gmtime(&t);
+        bob=eris->tm_yday; /* days since Jan 1. */
+        raw=eris->tm_year; /* years since 1980 */
+        hastur=convert(bob,raw);
+        fnord=fnord?fnord:default_immediate_fmt;
     }
     format(schwa, fnord, hastur);
     printf("%s\n", schwa);
-   
+
     return 0;
 }
 
@@ -269,94 +269,94 @@ void format(char *buf, const char* fmt, struct disc_time dt)
     int i, fmtlen=strlen(fmt);
     char *bufptr=buf;
 
-/*    fprintf(stderr, "format(%p, \"%s\", dt)\n", buf, fmt);*/
+    /*    fprintf(stderr, "format(%p, \"%s\", dt)\n", buf, fmt);*/
 
     /* first, find extents of St. Tib's Day area, if defined */
     for(i=0; i<fmtlen; i++) {
-	if(fmt[i]=='%') {
-	    switch(fmt[i+1]) {
-	    case 'A':
-	    case 'a':
-	    case 'd':
-	    case 'e':
-		if(tib_start>0)	    tib_end=i+1;
-		else		    tib_start=i;
-		break;
-	    case '{': tib_start=i; break;
-	    case '}': tib_end=i+1; break;
-	    }
-	}
+        if(fmt[i]=='%') {
+            switch(fmt[i+1]) {
+                case 'A':
+                case 'a':
+                case 'd':
+                case 'e':
+                    if(tib_start>0)	    tib_end=i+1;
+                    else		    tib_start=i;
+                    break;
+                case '{': tib_start=i; break;
+                case '}': tib_end=i+1; break;
+            }
+        }
     }
 
     /* now do the formatting */
     buf[0]=0;
 
     for(i=0; i<fmtlen; i++) {
-	if((i==tib_start) && (dt.day==-1)) {
-	    /* handle St. Tib's Day */
-	    strcpy(bufptr, ("St. Tib's Day"));
-	    bufptr += strlen(bufptr);
-	    i=tib_end;
-	} else {
-	    if(fmt[i]=='%') {
-		char *wibble=0, snarf[23];
-		switch(fmt[++i]) {
-		case 'A': wibble=day_long[dt.yday%5]; break;
-		case 'a': wibble=day_short[dt.yday%5]; break;
-		case 'B': wibble=season_long[dt.season]; break;
-		case 'b': wibble=season_short[dt.season]; break;
-		case 'd': sprintf(snarf, "%d", dt.day+1); wibble=snarf; break;
-		case 'e': sprintf(snarf, "%d%s", dt.day+1, ending(dt.day+1)); 
-		    wibble=snarf; break;
-		case 'H': if(dt.day==4||dt.day==49)
-		    wibble=holyday[dt.season][dt.day==49]; break;
-		case 'N': if(dt.day!=4&&dt.day!=49) goto eschaton; break;
-		case 'n': *(bufptr++)='\n'; break;
-		case 't': *(bufptr++)='\t'; break;
+        if((i==tib_start) && (dt.day==-1)) {
+            /* handle St. Tib's Day */
+            strcpy(bufptr, ("St. Tib's Day"));
+            bufptr += strlen(bufptr);
+            i=tib_end;
+        } else {
+            if(fmt[i]=='%') {
+                char *wibble=0, snarf[23];
+                switch(fmt[++i]) {
+                    case 'A': wibble=day_long[dt.yday%5]; break;
+                    case 'a': wibble=day_short[dt.yday%5]; break;
+                    case 'B': wibble=season_long[dt.season]; break;
+                    case 'b': wibble=season_short[dt.season]; break;
+                    case 'd': sprintf(snarf, "%d", dt.day+1); wibble=snarf; break;
+                    case 'e': sprintf(snarf, "%d%s", dt.day+1, ending(dt.day+1)); 
+                              wibble=snarf; break;
+                    case 'H': if(dt.day==4||dt.day==49)
+                                  wibble=holyday[dt.season][dt.day==49]; break;
+                    case 'N': if(dt.day!=4&&dt.day!=49) goto eschaton; break;
+                    case 'n': *(bufptr++)='\n'; break;
+                    case 't': *(bufptr++)='\t'; break;
 
-		case 'Y': sprintf(snarf, "%d", dt.year); wibble=snarf; break;
-		case '.': wibble=sel(excl, ARRAY_SIZE(excl));
-		    break;
+                    case 'Y': sprintf(snarf, "%d", dt.year); wibble=snarf; break;
+                    case '.': wibble=sel(excl, ARRAY_SIZE(excl));
+                              break;
 #ifdef KILL_BOB
-		case 'X': sprintf(snarf, "%d", 
-				  xday_countdown(dt.yday, dt.year));
-				  wibble = snarf; break;
+                    case 'X': sprintf(snarf, "%d", 
+                                      xday_countdown(dt.yday, dt.year));
+                              wibble = snarf; break;
 #endif /* KILL_BOB */
-		}
-		if(wibble) {
-/*		    fprintf(stderr, "wibble = (%s)\n", wibble);*/
-		    strcpy(bufptr, wibble); bufptr+=strlen(wibble);
-		}
-	    } else {
-		*(bufptr++) = fmt[i];
-	    }
-	}
+                }
+                if(wibble) {
+                    /*		    fprintf(stderr, "wibble = (%s)\n", wibble);*/
+                    strcpy(bufptr, wibble); bufptr+=strlen(wibble);
+                }
+            } else {
+                *(bufptr++) = fmt[i];
+            }
+        }
     }
-  eschaton:
+eschaton:
     *(bufptr)=0;
 }
 
 struct disc_time makeday(int imonth,int iday,int iyear) /*i for input */
 { 
     struct disc_time funkychickens;
-    
+
     int cal[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
     int dayspast=0;
 
     memset(&funkychickens,0,sizeof(funkychickens));
     /* basic range checks */
     if (imonth < 1 || imonth > 12 || iyear == 0) {
-	    funkychickens.season = -1;
-	    return funkychickens;
+        funkychickens.season = -1;
+        return funkychickens;
     }
     if (iday < 1 || iday > cal[imonth-1]) {
-	    if (!(imonth == 2 && iday == 29 && iyear%4 == 0 &&
-		  (iyear%100 != 0 || iyear%400 == 0))) {
-		    funkychickens.season = -1;
-		    return funkychickens;
-	    }
+        if (!(imonth == 2 && iday == 29 && iyear%4 == 0 &&
+                    (iyear%100 != 0 || iyear%400 == 0))) {
+            funkychickens.season = -1;
+            return funkychickens;
+        }
     }
-    
+
     imonth--;
     funkychickens.year= iyear+1166;
     /*  note: gregorian year 0 doesn't exist so
@@ -366,37 +366,37 @@ struct disc_time makeday(int imonth,int iday,int iyear) /*i for input */
     funkychickens.day=dayspast+iday-1;
     funkychickens.season=0;
     if((funkychickens.year%4)==2) {
-	if (funkychickens.day==59 && iday==29)  funkychickens.day=-1;
+        if (funkychickens.day==59 && iday==29)  funkychickens.day=-1;
     }
     funkychickens.yday=funkychickens.day;
-/*               note: EQUAL SIGN...hopefully that fixes it */
+    /*               note: EQUAL SIGN...hopefully that fixes it */
     while(funkychickens.day>=73) {
-	funkychickens.season++;
-	funkychickens.day-=73;
+        funkychickens.season++;
+        funkychickens.day-=73;
     }
     return funkychickens;
 }
 
 struct disc_time convert(int nday, int nyear)
 {  struct disc_time funkychickens;
-   
-   funkychickens.year = nyear+3066;
-   funkychickens.day=nday;
-   funkychickens.season=0;
-   if ((funkychickens.year%4)==2)
-     {if (funkychickens.day==59)
-	funkychickens.day=-1;
-     else if (funkychickens.day >59)
-       funkychickens.day-=1;
+
+    funkychickens.year = nyear+3066;
+    funkychickens.day=nday;
+    funkychickens.season=0;
+    if ((funkychickens.year%4)==2)
+    {if (funkychickens.day==59)
+        funkychickens.day=-1;
+        else if (funkychickens.day >59)
+            funkychickens.day-=1;
     }
-   funkychickens.yday=funkychickens.day;
-   while (funkychickens.day>=73)
-     { funkychickens.season++;
-       funkychickens.day-=73;
-     }
-   return funkychickens;
-  
- }
+    funkychickens.yday=funkychickens.day;
+    while (funkychickens.day>=73)
+    { funkychickens.season++;
+        funkychickens.day-=73;
+    }
+    return funkychickens;
+
+}
 
 #ifdef KILL_BOB
 
