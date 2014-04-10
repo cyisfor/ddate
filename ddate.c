@@ -34,6 +34,7 @@
    1999-02-22 Arkadiusz Miskiewicz <misiek@pld.ORG.PL>
    - added Native Language Support
 
+   2000-03-17 Burt Holzman <bnh@iname.com>
    2000-03-17 Burt Holzman <holzman+ddate@gmail.com>
    - added range checks for dates
 
@@ -74,6 +75,12 @@
 #include <string.h>
 #include <time.h>
 #include <stdio.h>
+
+// work around includes and defines from formerly nls.h
+#include <locale.h>
+#include <libintl.h>
+
+#define LOCALEDIR "/usr/share/locale"
 
 
 // work around includes and defines from formerly c.h
@@ -194,6 +201,10 @@ main (int argc, char *argv[]) {
     progname = argv[0];
     if ((p = strrchr(progname, '/')) != NULL)
 	progname = p+1;
+
+    setlocale(LC_ALL, "");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 
     srandom(time(NULL));
     /* do args here */
@@ -338,6 +349,7 @@ struct disc_time makeday(int imonth,int iday,int iyear) /*i for input */
     }
     
     imonth--;
+    funkychickens.year= iyear+1166;
     /*  note: gregorian year 0 doesn't exist so
      *  add one if user specifies a year less than 0 */
     funkychickens.year= iyear+1166 + ((0 > iyear)?1:0);
