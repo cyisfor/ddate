@@ -236,17 +236,26 @@ main (int argc, char *argv[]) {
 		return -1;
 	}
 	fnord=fnord?fnord:default_fmt;
-    } else if (argc!=pi) { 
-      usage:
-	fprintf(stderr,("usage: %s [+format] [day month year]\n"), argv[0]);
-	exit(1);
     } else {
-	t= time(NULL);
-	eris=localtime(&t);
-	bob=eris->tm_yday; /* days since Jan 1. */
-	raw=eris->tm_year; /* years since 1980 */
-	hastur=convert(bob,raw);
-	fnord=fnord?fnord:default_immediate_fmt;
+        if (argc-pi==1) {
+            t = strtol(argv[pi],NULL,10);
+        } else if (argc!=pi) { 
+          usage:
+#ifdef US_FORMAT
+        	fprintf(stderr,("usage: %s [+format] [month day year] you bloody yanks\n"), argv[0]);
+#else
+        	fprintf(stderr,("usage: %s [+format] [day month year]\n"), argv[0]);
+#endif
+        	fprintf(stderr,("alsousage: %s [+format] [timestamp]\n"), argv[0]);
+        	exit(1);
+        } else {
+        	t= time(NULL);
+        }
+    	eris=gmtime(&t);
+    	bob=eris->tm_yday; /* days since Jan 1. */
+    	raw=eris->tm_year; /* years since 1980 */
+    	hastur=convert(bob,raw);
+    	fnord=fnord?fnord:default_immediate_fmt;
     }
     format(schwa, fnord, hastur);
     printf("%s\n", schwa);
