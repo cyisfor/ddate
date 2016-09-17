@@ -61,6 +61,7 @@
 
 /* #define US_FORMAT */
 
+#include "config.h"
 /* If you are ideologically, theologically or otherwise opposed to the 
  * Church of the SubGenius and do not wish your copy of ddate(1) to contain
  * code for counting down to X-Day, undefine KILL_BOB */
@@ -129,13 +130,6 @@ char *holyday[5][2] = {
     { "Maladay", "Afflux" }
 };
 
-struct disc_time {
-    int season; /* 0-4 */
-    int day; /* 0-72 */
-    int yday; /* 0-365 */
-    int year; /* 3066- */
-};
-
 char *excl[] = {
     "Hail Eris!", "All Hail Discordia!", "Kallisti!", "Fnord.", "Or not.",
     "Wibble.", "Pzat!", "P'tang!", "Frink!",
@@ -180,90 +174,7 @@ static inline char *sel(char **strings, int num) {
     return(strings[random()%num]);
 }
 
-void print(struct disc_time,char **); /* old */
-void format(char *buf, const char* fmt, struct disc_time dt);
-/* read a fortune file */
-int load_fortunes(char *fn, char *delim, char** result);
-
-struct disc_time convert(int,int);
-struct disc_time makeday(int,int,int);
-
-int
-main (int argc, char *argv[]) {
-    time_t t;
-    struct tm *eris;
-    int bob,raw;
-    struct disc_time hastur;
-    char schwa[23*17], *fnord=0;
-    int pi;
-    char *progname, *p;
-
-    progname = argv[0];
-    if ((p = strrchr(progname, '/')) != NULL)
-        progname = p+1;
-
-    setlocale(LC_ALL, "");
-    bindtextdomain(PACKAGE, LOCALEDIR);
-    textdomain(PACKAGE);
-
-    srandom(time(NULL));
-    /* do args here */
-    for(pi=1; pi<argc; pi++) {
-        switch(argv[pi][0]) {
-            case '+': fnord=argv[pi]+1; break;
-            case '-': 
-                switch(argv[pi][1]) {
-                    case 'V':
-                        printf(("%s (%s)\n"), progname, PACKAGE_STRING);
-                    default: goto usage;
-                }
-            default: goto thud;
-        }
-    }
-
-thud:
-    if (argc-pi==3){ 
-        int moe=atoi(argv[pi]), larry=atoi(argv[pi+1]), curly=atoi(argv[pi+2]);
-        hastur=makeday(
-#ifdef US_FORMAT
-                moe,larry,
-#else
-                larry,moe,
-#endif
-                curly);
-        if (hastur.season == -1) {
-            printf("Invalid date -- out of range\n");
-            return -1;
-        }
-        fnord=fnord?fnord:default_fmt;
-    } else {
-        if (argc-pi==1) {
-            t = strtol(argv[pi],NULL,10);
-        } else if (argc!=pi) { 
-usage:
-#ifdef US_FORMAT
-            fprintf(stderr,("usage: %s [+format] [month day year] you bloody yanks\n"), argv[0]);
-#else
-            fprintf(stderr,("usage: %s [+format] [day month year]\n"), argv[0]);
-#endif
-            fprintf(stderr,("alsousage: %s [+format] [timestamp]\n"), argv[0]);
-            exit(1);
-        } else {
-            t= time(NULL);
-        }
-        eris=gmtime(&t);
-        bob=eris->tm_yday; /* days since Jan 1. */
-        raw=eris->tm_year; /* years since 1980 */
-        hastur=convert(bob,raw);
-        fnord=fnord?fnord:default_immediate_fmt;
-    }
-    format(schwa, fnord, hastur);
-    printf("%s\n", schwa);
-
-    return 0;
-}
-
-void format(char *buf, const char* fmt, struct disc_time dt)
+void disc_format(char *buf, const char* fmt, struct disc_time dt)
 {
     int tib_start=-1, tib_end=0;
     int i, fmtlen=strlen(fmt);
@@ -336,7 +247,7 @@ eschaton:
     *(bufptr)=0;
 }
 
-struct disc_time makeday(int imonth,int iday,int iyear) /*i for input */
+struct disc_time disc_makeday(int imonth,int iday,int iyear) /*i for input */
 { 
     struct disc_time funkychickens;
 
@@ -377,7 +288,7 @@ struct disc_time makeday(int imonth,int iday,int iyear) /*i for input */
     return funkychickens;
 }
 
-struct disc_time convert(int nday, int nyear)
+struct disc_time disc_convert(int nday, int nyear)
 {  struct disc_time funkychickens;
 
     funkychickens.year = nyear+3066;
@@ -410,7 +321,7 @@ struct disc_time convert(int nday, int nyear)
  *
  */
 
-int xday_countdown(int yday, int year) {
+int disc_xday_countdown(int yday, int year) {
     int r=(185-yday)+(((yday<59)&&(leapp(year)))?1:0);
     while(year<9827) r+=(leapp(++year)?366:365);
     while(year>9827) r-=(leapp(year--)?366:365);
