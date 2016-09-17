@@ -61,7 +61,7 @@
 
 /* #define US_FORMAT */
 
-#include "config.h"
+#include "ddate.h"
 /* If you are ideologically, theologically or otherwise opposed to the 
  * Church of the SubGenius and do not wish your copy of ddate(1) to contain
  * code for counting down to X-Day, undefine KILL_BOB */

@@ -5,16 +5,23 @@ CPPFLAGS = -g
 
 PREFIX=/usr/local
 
-ddate:
-	$(CC) $(CCFLAGS) ddate.c -o ddate
-	gzip -c ddate.1 >> ddate.1.gz
+all: ddate ddate.1.gz
 
-install:
+ddate: main.o ddate.o
+	$(CC) $(CCFLAGS) $^ -o $@
+
+ddate.1.gz: ddate.1
+
+%.gz: %
+	gzip -c $< >> $@.temp
+	mv $@.temp $@
+
+install: all
 	mkdir -p $(PREFIX)/bin/
 	mkdir -p $(PREFIX)/share/man/man1/
 	cp ddate $(PREFIX)/bin/
 	cp ddate.1.gz $(PREFIX)/share/man/man1/
 
-.PHONY: clean
+.PHONY: all clean install
 clean:
-	rm -f ddate ddate.1.gz
+	rm -f ddate ddate.1.gz *.o
