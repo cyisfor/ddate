@@ -8,7 +8,7 @@ PREFIX=/usr/local
 all: ddate ddate.1.gz
 
 ddate: main.o ddate.o
-	$(CC) $(CCFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 ddate.1.gz: ddate.1
 

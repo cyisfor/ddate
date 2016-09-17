@@ -95,7 +95,7 @@ main (int argc, char *argv[]) {
 thud:
     if (argc-pi==3){ 
         int moe=atoi(argv[pi]), larry=atoi(argv[pi+1]), curly=atoi(argv[pi+2]);
-        hastur=makeday(
+        hastur=disc_makeday(
 #ifdef US_FORMAT
                 moe,larry,
 #else
@@ -125,10 +125,10 @@ usage:
         eris=gmtime(&t);
         bob=eris->tm_yday; /* days since Jan 1. */
         raw=eris->tm_year; /* years since 1980 */
-        hastur=convert(bob,raw);
+        hastur=disc_convert(bob,raw);
         fnord=fnord?fnord:default_immediate_fmt;
     }
-    format(schwa, fnord, hastur);
+    disc_format(schwa, fnord, hastur);
     printf("%s\n", schwa);
 
     return 0;

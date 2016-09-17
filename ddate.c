@@ -75,14 +75,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <stdio.h>
-
-// work around includes and defines from formerly nls.h
-#include <locale.h>
-#include <libintl.h>
-
-#define LOCALEDIR "/usr/share/locale"
-
 
 // work around includes and defines from formerly c.h
 #ifndef ARRAY_SIZE
@@ -104,7 +96,7 @@
 #endif
 
 #ifdef KILL_BOB
-int xday_countdown(int yday, int year);
+static int xday_countdown(int yday, int year);
 #endif
 
 
@@ -149,15 +141,6 @@ char *excl[] = {
 #endif
     ""
 };
-
-char default_fmt[] = "%{%A, %B %d%}, %Y YOLD";
-char *default_immediate_fmt=
-#ifdef OLD_IMMEDIATE_FMT
-"Today is %{%A, the %e day of %B%} in the YOLD %Y%N%nCelebrate %H"
-#else
-default_fmt
-#endif
-;
 
 #define DY(y) (y+1166)
 
@@ -219,8 +202,10 @@ void disc_format(char *buf, const char* fmt, struct disc_time dt)
                     case 'd': sprintf(snarf, "%d", dt.day+1); wibble=snarf; break;
                     case 'e': sprintf(snarf, "%d%s", dt.day+1, ending(dt.day+1)); 
                               wibble=snarf; break;
-                    case 'H': if(dt.day==4||dt.day==49)
-                                  wibble=holyday[dt.season][dt.day==49]; break;
+                    case 'H': if(dt.day==4||dt.day==49) {
+                                  wibble=holyday[dt.season][dt.day==49];
+															}
+											break;				
                     case 'N': if(dt.day!=4&&dt.day!=49) goto eschaton; break;
                     case 'n': *(bufptr++)='\n'; break;
                     case 't': *(bufptr++)='\t'; break;
@@ -321,7 +306,7 @@ struct disc_time disc_convert(int nday, int nyear)
  *
  */
 
-int disc_xday_countdown(int yday, int year) {
+static int xday_countdown(int yday, int year) {
     int r=(185-yday)+(((yday<59)&&(leapp(year)))?1:0);
     while(year<9827) r+=(leapp(++year)?366:365);
     while(year>9827) r-=(leapp(year--)?366:365);
