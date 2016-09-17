@@ -35,14 +35,14 @@
 
 #include "ddate.h"
 
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <stdio.h>
+#include <stdlib.h> // srandom, atoi, strtol, exit
+#include <string.h> // strrchr
+#include <time.h> // time, gmtime, struct tm
+#include <stdio.h> // printf, stderr, fprintf
 
 // work around includes and defines from formerly nls.h
-#include <locale.h>
-#include <libintl.h>
+
+#include <libintl.h> // bindtextdomain, textdomain
 
 #define LOCALEDIR "/usr/share/locale"
 
@@ -128,7 +128,7 @@ usage:
         hastur=disc_convert(bob,raw);
         fnord=fnord?fnord:default_immediate_fmt;
     }
-    disc_format(schwa, fnord, hastur);
+    disc_format(schwa, 23, fnord, hastur);
     printf("%s\n", schwa);
 
     return 0;
