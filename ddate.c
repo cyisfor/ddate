@@ -240,7 +240,7 @@ int disc_format(char *buf, int len, const char* fmt, struct disc_time dt)
 eschaton:
 		if(len==0) return -2;
     *(bufptr)=0;
-		return 0;
+		return bufptr-buf;
 }
 
 struct disc_time disc_fromtm(struct tm* tim) {
