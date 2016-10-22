@@ -158,11 +158,18 @@ static inline char *sel(char **strings, int num) {
     return(strings[random()%num]);
 }
 
+#define default_fmt = "%{%A, %B %d%}, %Y YOLD";
 int disc_format(char *buf, int len, const char* fmt, struct disc_time dt)
 {
     int tib_start=-1, tib_end=0;
-    int i, fmtlen=strlen(fmt);
+    int i, fmtlen;
     char *bufptr=buf;
+		if(fmt == NULL) {
+			fmtlen = sizeof(default_fmt)-1;
+			fmt = default_fmt;
+		} else {
+			fmtlen = strlen(fmt);
+		}
 
     /*    fprintf(stderr, "format(%p, \"%s\", dt)\n", buf, fmt);*/
 

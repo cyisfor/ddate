@@ -50,12 +50,11 @@
 #define PACKAGE "ddate"
 #define PACKAGE_STRING "Stand Alone"
 
-char default_fmt[] = "%{%A, %B %d%}, %Y YOLD";
 char *default_immediate_fmt=
 #ifdef OLD_IMMEDIATE_FMT
 "Today is %{%A, the %e day of %B%} in the YOLD %Y%N%nCelebrate %H"
 #else
-default_fmt
+NULL
 #endif
 ;
 
