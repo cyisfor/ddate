@@ -105,7 +105,7 @@ thud:
             printf("Invalid date -- out of range\n");
             return -1;
         }
-        fnord=fnord?fnord:default_fmt;
+        fnord=fnord?fnord:NULL;
     } else {
         if (argc-pi==1) {
             t = strtol(argv[pi],NULL,10);
