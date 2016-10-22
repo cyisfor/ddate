@@ -183,7 +183,7 @@ int disc_format(char *buf, int len, const char* fmt, struct disc_time dt)
         }
     }
 
-		if(len == 0) return;
+		if(len == 0) return -1;
     /* now do the formatting */
     buf[0]=0;
 
@@ -194,7 +194,7 @@ int disc_format(char *buf, int len, const char* fmt, struct disc_time dt)
 					if(len < tib) return -1;
 					len -= tib;
             memcpy(bufptr, ("St. Tib's Day"),tib);
-            bufptr += tib
+            bufptr += tib;
             i=tib_end;
         } else {
             if(fmt[i]=='%') {
@@ -229,7 +229,7 @@ int disc_format(char *buf, int len, const char* fmt, struct disc_time dt)
 									int wib = strlen(wibble);
 									if(len < wib) return -1;
 									len -= wib;
-                    memcpy(bufptr, wibble,wib); bufptr+=wib;
+                    memcpy(bufptr, wibble, wib); bufptr+=wib;
                 }
             } else {
 							if(len-- == 0) return -1;
@@ -242,6 +242,15 @@ eschaton:
     *(bufptr)=0;
 		return 0;
 }
+
+struct disc_time disc_fromtm(struct tm* tim) {
+	return disc_convert(time->yday,tim->year);
+}
+
+struct disc_time disc_fromtime(time_t time) {
+	return disc_fromtm(localtime(&time));
+}
+	
 
 struct disc_time disc_makeday(int imonth,int iday,int iyear) /*i for input */
 { 

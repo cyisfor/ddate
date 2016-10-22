@@ -5,10 +5,13 @@ CPPFLAGS = -g
 
 PREFIX=/usr/local
 
-all: ddate ddate.1.gz
+all: ddate ddate.1.gz libddate.so test_libddate
 
 ddate: main.o ddate.o
 	$(CC) $(CFLAGS) $^ -o $@
+
+libddate.so: ddate.c
+	$(CC) -shared -fpic $(CFLAGS) $^ -o $@
 
 ddate.1.gz: ddate.1
 

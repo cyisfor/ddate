@@ -128,7 +128,10 @@ usage:
         hastur=disc_convert(bob,raw);
         fnord=fnord?fnord:default_immediate_fmt;
     }
-    disc_format(schwa, 23, fnord, hastur);
+    if(0!=disc_format(schwa, 23*17, fnord, hastur)) {
+			puts("truncated");
+		}
+	
     printf("%s\n", schwa);
 
     return 0;
