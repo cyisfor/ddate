@@ -1,12 +1,12 @@
 #include "ddate.h"
-
-int main(int argc, char *argv[])
+#include <stdio.h>
+int main(void)
 {
+	struct disc_time disc = disc_fromtime(time(NULL));
+
 	char default_fmt[] = "%{%A, %B %d%}, %Y YOLD";
 	char buf[0x100];
-	time_t now = time(NULL);
-	struct tm* nowt = localtime(&now);
-	struct
-	disc_format
+	ssize_t amt = disc_format(buf,0x100,default_fmt,disc);
+	puts(buf);
 	return 0;
 }

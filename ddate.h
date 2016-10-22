@@ -8,7 +8,7 @@ struct disc_time {
 };
 
 struct disc_time disc_fromtm(struct tm* tim);
-struct disc_time disc_fromtm(time_t tim);
+struct disc_time disc_fromtime(time_t tim);
 struct disc_time disc_convert(int,int);
 struct disc_time disc_makeday(int,int,int);
 int disc_format(char *buf, int len, const char* fmt, struct disc_time dt);

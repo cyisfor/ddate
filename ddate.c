@@ -244,7 +244,7 @@ eschaton:
 }
 
 struct disc_time disc_fromtm(struct tm* tim) {
-	return disc_convert(time->yday,tim->year);
+	return disc_convert(tim->tm_yday,tim->tm_year);
 }
 
 struct disc_time disc_fromtime(time_t time) {

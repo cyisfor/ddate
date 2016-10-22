@@ -13,6 +13,9 @@ ddate: main.o ddate.o
 libddate.so: ddate.c
 	$(CC) -shared -fpic $(CFLAGS) $^ -o $@
 
+test_libddate: libddate.so test_libddate.c
+	$(CC) $(CFLAGS) -o $@ $^
+
 ddate.1.gz: ddate.1
 
 %.gz: %
@@ -27,4 +30,4 @@ install: all
 
 .PHONY: all clean install
 clean:
-	rm -f ddate ddate.1.gz *.o
+	git clean -fd
